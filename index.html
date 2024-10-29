@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head> 
+    <meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title> 
+        Írásbeli osztás kétjegyű számmal 
+    </title> 
+
+	<style>
+		body{
+			text-size-adjust: none;
+		}
+		
+.container1 {
+    background: grey;
+    display: inline-block;
+    border: 3px solid grey;
+    
+    }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, 80px);
+    grid-template-rows: repeat(5, 80px);
+    grid-gap: 3px;
+    }
+.cell {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 48px;
+    font-weight: bold;
+    background: white;
+    color: #02003F;
+    }
+
+input[type=number] {
+    width: 74px;
+    height: 74px;
+    font-size: 48px;
+    text-align: center;
+    border: 3px solid blue;
+    /* Firefox no arrows ???*/
+    }
+/* Chrome, Safari, Edge, Opera no arrows*/
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+input[type=number]:read-only {
+    border: none;
+    }
+
+
+/* Customize the label (the container) */
+.container2 {
+display: block;
+position: relative;
+padding-left: 15px;
+margin-bottom: 12px;
+cursor: pointer;
+font-size: 22px;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container2 input {
+position: absolute;
+opacity: 0;
+cursor: pointer;
+height: 0;
+width: 0;
+}
+
+/* Create a custom radio button */
+.checkmark {
+position: absolute;
+top: 0;
+left: 0;
+height: 25px;
+width: 25px;
+background-color: #e3a14d;
+border-radius: 50%;
+}
+
+/*On mouse-over, add a grey background color */
+.container2:hover input ~ .checkmark {
+background-color: #a29c9c;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+content: "";
+position: absolute;
+display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container2 input:checked ~ .checkmark:after {
+display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container2 .checkmark:after {
+top: 9px;
+left: 9px;
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background: white;
+}
+
+#left-arrow {
+    width: 130px;
+    display: inline;
+    position: relative;
+    z-index: 2;
+    }
+
+button {
+    background-color: #e3a14d;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding:10px;
+    margin:5px;
+    font-size:32px;
+    position: absolute;
+    top:70px;
+    right: 20px;
+}
+
+button:hover{
+    cursor:pointer;
+    background-color:#a29c9c;
+}
+	</style>
+</head> 
+<body>
+	<div>
+		<h1>Írásbeli osztás egyjegyű számmal </h1>
+	<p id="score"></p>
+	<p id="p1">Először döntsd el, egy vagy két számjegyből képzett számot kell először osztanod. Jelöld ki!</p>
+
+	<button id="p5button" style="display:none;" onclick="reload()">Gyakorolnám még!</button>
+
+	</div>
+	
+
+	<label class="container2"> 
+		<input type="radio" id ="egyjegy" name="kijelol" onclick="jorakatt(1)">
+		<span class="checkmark" id ="egyjegyR" style="position:absolute;left:70px;" ></span> 
+	</label>
+	<label class="container2" id="ketjegyu">
+		<input type="radio" id="ketjegy" name="kijelol" onclick="jorakatt(2)">
+		<span class="checkmark" id="ketjegyR" style="position:absolute;left:155px;" ></span>
+	</label>
+	<label class="container2" id ="radio2" style="display:none"> 
+		<input type="radio" id ="radio2b" name="kijelol" onclick="jorakatt(3)">
+		<span class="checkmark" id ="radio2b1" style="position:absolute;left:155px;" ></span> 
+	</label>
+	<label class="container2" id ="radio3" style="display:none"> 
+		<input type="radio" id ="radio3b" name="kijelol" onclick="jorakatt(4)">
+		<span class="checkmark" id ="radio221" style="position:absolute;left:240px;" ></span> 
+	</label>
+	<label class="container2" id ="radio4"style="display:none"> 
+		<input type="radio" id ="radio4b" name="kijelol" onclick="jorakatt(5)">
+		<span class="checkmark" id ="radio222" style="position:absolute;left:325px;" ></span> 
+	</label>
+
+	<br><br>	
+<div class="container1">
+  <div class="grid">
+    <div class="cell"><p id="a"></p></div>
+    <div class="cell"><p id="b"></p></div>
+    <div class="cell"><p id="c"></p></div>
+    <div class="cell"><p id="d"></p></div>
+    <div class="cell">:</div>
+    <div class="cell"><p id="e"></p></div>
+    <div class="cell">=</div>
+	<div class="cell" id="8"><input type="number" id="f" name="f" min="0" max="9" oninput="validateInput('f');if(value.length==1)osztas('f')" style="display:none"></div>
+	<div class="cell" id="9"><input type="number" id="g" name="g" min="0" max="9" oninput="validateInput('g');if(value.length==1)osztas('g')" style="display:none"></div>
+	<div class="cell" id="10"><input type="number" id="h" name="h" min="0" max="9" oninput="validateInput('h');if(value.length==1)osztas('h')" style="display:none"></div>
+	<div class="cell" id="11"><input type="number" id="i" name="i" min="0" max="9" oninput="validateInput('i');if(value.length==1)osztas('i')" style="display:none"></div>
+	<div class="cell"></div>
+	<div class="cell" id="13"><input type="number" id="m1" name="m1" min="0" max="9" oninput="validateInput('m1');if(value.length==1)maradek('m1', 0, 'a')" style="display:none"></div>
+	<div class="cell" id="14"><input type="number" id="m2" name="m1" min="0" max="9" oninput="validateInput('m2');if(value.length==1)maradek('m2', 'a','b' )" style="display:none"></div> 
+	<div class="cell" id="15"></div>
+	<div class="cell" id="16"></div>
+	
+	<div class="cell" id="17"></div>
+	<div class="cell" id="18"><img id="left-arrow" src="left-arrow.png" style="display:none"></div>
+	<div class="cell" id="19"></div>
+	<div class="cell" id="20"></div>
+	<div class="cell" id="21"></div>
+	<div class="cell" id="22"></div>
+	<div class="cell" id="23"></div>
+	<div class="cell" id="24"></div>
+	<div class="cell" id="25"></div>
+	<div class="cell" id="26"><input type="number" id="m3" name="m2" oninput="validateInput('m3');if(value.length==1)maradek('m3', 'm1', 'b')" style="display:none"></div>
+	<div class="cell" id="27"><input type="number" id="m4" name="m2" oninput="validateInput('m4');if(value.length==1)maradek('m4', 'm2', 'c')" style="display:none"></div>
+	<div class="cell" id="28"></div>
+	<div class="cell" id="29"></div>
+	<div class="cell" id="30"></div>
+	<div class="cell" id="31"></div>
+	<div class="cell" id="32"></div>
+	<div class="cell" id="33"></div>
+	<div class="cell" id="34"></div>
+	<div class="cell" id="35"></div>
+	<div class="cell" id="36"></div>
+	<div class="cell" id="37"></div>
+	<div class="cell" id="38"></div>
+	<div class="cell" id="39"><input type="number" id="m5" name="m3" oninput="validateInput('m5');if(value.length==1)maradek('m5', 'm3', 'c')" style="display:none"></div>
+	<div class="cell" id="40"><input type="number" id="m6" name="m3" oninput="validateInput('m6');if(value.length==1)maradek('m6', 'm4', 'd')" style="display:none"></div>
+	<div class="cell" id="41"></div>
+	<div class="cell" id="42"></div>
+	<div class="cell" id="43"></div>
+	<div class="cell" id="44"></div>
+	<div class="cell" id="45"></div>
+	<div class="cell" id="46"></div>
+	<div class="cell" id="47"></div>
+	<div class="cell" id="48"></div>
+	<div class="cell" id="49"></div>
+	<div class="cell" id="50"></div>
+	<div class="cell" id="51"></div>
+	<div class="cell" id="52"><input type="number" id="m7" name="m4" oninput="validateInput('m7');if(value.length==1)maradek('m7', 'm5', 'd')" style="display:none"></div>
+	<div class="cell" id="53"></div>
+	<div class="cell" id="54"></div>
+	<div class="cell" id="55"></div>
+	<div class="cell" id="56"></div>
+	<div class="cell" id="57"></div>
+	<div class="cell" id="58"></div>
+	<div class="cell" id="59"></div>
+	<div class="cell" id="60"></div>
+  </div>
+</div>
+
+<script>
+
+	if (sessionStorage.getItem("score")) {
+		score = sessionStorage.getItem("score");
+	} else {
+		score = 0;
+	}
+
+	var egyjegyu;
+
+	function ujSzamok(){
+		osztando = Math.floor(Math.random()*9000+1000);
+		oszto = Math.floor(Math.random()*8+2);
+		d = osztando % 10;
+		c = (osztando % 100 - d)/10;
+		b = (osztando % 1000-(10*c)-d)/100;
+		a = (osztando - 100*b - 10*c - d) / 1000;
+
+		if (a>=oszto){
+			egyjegyu = true;
+		} else {
+			egyjegyu = false;
+			elsoMaradek = 0;
+		}
+
+		document.getElementById("score").innerHTML = "Elért pontszámod: " + score;
+		document.getElementById("a").innerHTML = a;
+		document.getElementById("b").innerHTML = b;
+		document.getElementById("c").innerHTML = c;
+		document.getElementById("d").innerHTML = d;
+		document.getElementById("e").innerHTML = oszto;
+	}
+	
+	ujSzamok();
+		
+
+
+		
+	function jorakatt(index) {
+
+		switch (index){
+			case 1: {
+				if (egyjegyu){
+					document.getElementById("egyjegyR").style.backgroundColor = "#60b524";
+					document.getElementById("ketjegyR").style.display = "none";
+					document.getElementById("p1").innerHTML = "Végezd el az első osztást!";
+					document.getElementById("f").style.display = "block";
+				} else {
+					document.getElementById("egyjegyR").style.backgroundColor = "red";
+				} break;
+			}
+
+			case 2: {
+				if (egyjegyu){
+					document.getElementById("ketjegyR").style.backgroundColor = "red";
+				} else {
+					document.getElementById("egyjegyR").style.display = "none";
+					document.getElementById("ketjegyR").style.backgroundColor = "#60b524";
+					document.getElementById("p1").innerHTML = "Végezd el az első osztást!";
+					document.getElementById("f").style.display = "block";
+				}	
+				break;
+			}
+
+			case 3: {
+				document.getElementById("g").style.display = "block";
+				document.getElementById("14").innerHTML = b;		
+				document.getElementById("egyjegyR").style.display = "none";
+				document.getElementById("p1").innerHTML = "Végezd el a következő osztást!";
+				break;
+			}
+
+			case 4: {
+				if (egyjegyu){
+					document.getElementById("h").style.display = "block";
+					document.getElementById("27").innerHTML = c;		
+
+				} else {
+					
+					document.getElementById("g").style.display = "block";
+					document.getElementById("15").innerHTML = c;		
+
+				}
+				document.getElementById("ketjegyR").style.display = "none";
+				document.getElementById("radio2").style.display = "none";
+				document.getElementById("p1").innerHTML = "Végezd el a következő osztást!";
+				break;
+			}
+
+			case 5: {
+				if (egyjegyu){
+					document.getElementById("i").style.display = "block";
+					document.getElementById("40").innerHTML = d;		
+
+				} else {
+					
+					document.getElementById("h").style.display = "block";
+					document.getElementById("28").innerHTML = d;		
+
+				}
+				document.getElementById("radio3").style.display = "none";
+				document.getElementById("p1").innerHTML = "Végezd el a következő osztást!";
+				break;
+			}
+
+       
+		}
+    }
+	
+	
+	// beolvassa következő osztandó számot, megnézi, hogy jó-e a megoldás következő jegye
+	function osztas(betujel) { 
+		document.getElementById("left-arrow").style.display = "none";
+
+
+		var hanyados = document.getElementById(betujel).value;	
+		var osztandojegy;
+		var kovmaradek;
+		switch (betujel){
+			case 'f': {
+				if (egyjegyu){
+					osztandojegy = a;
+					kovmaradek = 'm1';
+				} else {
+					osztandojegy = 10*a+b;
+					kovmaradek = 'm2';
+				}
+				
+				break;
+			} 
+			case 'g': {
+				if (egyjegyu){
+						m1 = document.getElementById("m1").value;
+						osztandojegy = m1*10+b;
+						kovmaradek = 'm3';
+				} else {
+						m2 = document.getElementById("m2").value;
+						osztandojegy = 10*m2+c;
+						kovmaradek = 'm4';
+				}
+				break;
+			}
+
+			case 'h': {
+				if (egyjegyu){
+						m3 = document.getElementById("m3").value;
+						osztandojegy = m3*10+c;
+						kovmaradek = 'm5';
+				} else {
+						m4 = document.getElementById("m4").value;
+						osztandojegy = 10*m4+d;
+						kovmaradek = 'm6';
+				}
+				break;
+			}
+
+			case 'i': {
+				
+						m5 = document.getElementById("m5").value;
+						osztandojegy = m5*10+d;
+						kovmaradek = 'm7';
+				
+				break;
+			}
+				
+				
+		}
+		if (hanyados == Math.floor(osztandojegy / oszto)) {
+				document.getElementById(betujel).style.backgroundColor = "#60b524";
+				document.getElementById(betujel).readOnly = true;
+				document.getElementById("p1").innerHTML = "Szorozz vissza, számold ki a maradékot!";
+				document.getElementById(kovmaradek).style.display = "block";
+				document.getElementById("left-arrow").style.display = "inline";
+		} else {
+				document.getElementById(betujel).style.backgroundColor = "red";
+			}
+	}
+
+
+	function maradek(id, tizszerID, egyszerID) { 
+		if (tizszerID) {
+			if (tizszerID.length>1){
+				tizszer = Number(document.getElementById(tizszerID).value);
+			} else {
+				tizszer = Number(document.getElementById(tizszerID).innerHTML);
+			}
+		} else {
+			tizszer = 0;
+		}
+		egyszer = egyszerID.length > 1 ? Number(document.getElementById(egyszerID).value) : Number(document.getElementById(egyszerID).innerHTML)
+		
+		maradekVal = (tizszer*10 + egyszer) % oszto;
+		beirt =  Number(document.getElementById(id).value);
+		
+		if (maradekVal == beirt) {
+			document.getElementById(id).style.backgroundColor = "#60b524";
+			document.getElementById(id).readOnly = true;
+			if (id == 'm7' || id == "m6") {
+				document.getElementById("p1").innerHTML = "Ügyesen számoltál, nyertél egy pontot."
+				score=Number(score)+1;
+				document.getElementById("score").innerHTML = "Elért pontszámod: " + score;
+				document.getElementById("p5button").style.display = "inline";
+				
+			} else {
+				kovszamjegy(id);
+			}
+			
+		} else {
+			document.getElementById(id).style.backgroundColor = "red";
+		}
+	}
+
+	function kovszamjegy(id){
+		document.getElementById("left-arrow").style.display = 'none';
+		document.getElementById("p1").innerHTML = "Kattintással hozd le a következő jegyet, és végezd el az osztást!";
+		switch (id) {
+			case 'm1': {
+				document.getElementById("radio2").style.display = "block";
+				break;
+			}
+			case 'm2': {
+				document.getElementById("radio3").style.display = "block";
+				break;
+			}
+
+			case 'm3': {
+				document.getElementById("radio3").style.display = "block";
+				break;
+			}
+
+			case 'm4': {
+				document.getElementById("radio4").style.display = "block";
+				break;
+			}
+
+			case 'm5': {
+				document.getElementById("radio4").style.display = "block";
+				break;
+			}	
+		}
+	}
+
+	function validateInput(inputID){
+		if(document.getElementById(inputID).value.length > 1) {
+			document.getElementById(inputID).value=document.getElementById(inputID).value.slice(0,1);
+		}
+	}
+				
+			
+	function reload() {
+		sessionStorage.setItem("score", score);
+		location.reload();
+	}
+	
+	
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+
